@@ -2,6 +2,7 @@ from odoo import models, fields, api
 import logging
 from datetime import datetime
 from escpos.printer import Network
+from send_mail import report_sales
 
 _logger = logging.getLogger(__name__)
 
@@ -179,5 +180,6 @@ Total ITBIS: ${total_itbis:.2f}
         printer_port = 9100
         printer = Network(printer_ip, printer_port)
         printer.text(ticket_text)
+        report_sales(ticket_text)
         printer.cut()
         printer.close()
