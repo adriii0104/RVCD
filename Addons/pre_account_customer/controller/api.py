@@ -65,11 +65,11 @@ class PosCustomController(http.Controller):
                RNC: 132477332
            Teléfono: +1 809-870-0606
           Fecha: {datetime.now().strftime('%d-%m-%Y %H:%M:%S')}
-{'-'*50}
+{'-'*48}
                    PRECUENTA
-{'-'*50}
+{'-'*48}
 Descripción{' '*10}Cantidad{' '*10}Importe
-{'-'*50}
+{'-'*48}
 """
     # Adding product lines to the summary
         for line in lines:
@@ -83,20 +83,20 @@ Descripción{' '*10}Cantidad{' '*10}Importe
 
         # Adding total amounts to the summary
         summary_str += f"""
-{'-'*50}
-{'-'*50}
+{'-'*48}
+{'-'*48}
 Importe sin impuestos:             RD$ {amount_untaxed:.2f}
 18% ITBIS:                         RD$ {tax_amount:.2f}
 10% Propina:                       RD$ {tip_amount:.2f}
 
-{'-'*50}
+{'-'*48}
 {bold_on}Total:                             RD$ {total_with_tip:.2f}{bold_off}
-{'-'*50}
+{'-'*48}
 Centro de Venta: Revel Bar & Kitchen
-Cliente : {partner_name}
+Cliente : {'' if partner_name == 'Factura de Consumo' else partner_name}
 MESA: {table}
 Cajero: {cashier}
-{'-'*50}
+{'-'*48}
 
 Tipo NCF: {'_'*25}
 
@@ -107,9 +107,9 @@ NOMBRE: {'_'*25}
 
         print(summary_str)
         # Uncomment the following lines to print to a network printer
-        # printer_ip = '192.168.100.110'
-        # printer_port = 9100
-        # printer = Network(printer_ip, printer_port)
-        # printer.text(summary_str)
-        # printer.cut()
-        # printer.close()
+        printer_ip = '192.168.100.110'
+        printer_port = 9100
+        printer = Network(printer_ip, printer_port)
+        printer.text(summary_str)
+        printer.cut()
+        printer.close()
