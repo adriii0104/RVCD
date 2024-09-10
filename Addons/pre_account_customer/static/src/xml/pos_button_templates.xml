@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-name="custom_pos_screen.ProductCombosButton" owl="1">
+        <button class="control-button btn btn-light rounded-0 fw-bolder" t-on-click="() => this.click()">
+            <i class="fa fa-align-justify me-1" role="img" aria-label="Product Combos" title="Product Combos"></i>
+            Imprimir PreFactura
+        </button>
+    </t>
+</templates>
