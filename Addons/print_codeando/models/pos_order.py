@@ -99,17 +99,16 @@ class PosOrder(models.Model):
 
         # Configurar impresoras según la categoría
         if category == 'BAR':
-            # printer_ip = '192.168.100.111'
-            pass
+            printer_ip = '192.168.100.111'
+            # pass
         elif category == 'COCINA':
-            # printer_ip = '192.168.100.112'
-            pass
+            printer_ip = '192.168.100.112'
         else:
             _logger.warning(f"No printer configured for category: {category}")
             return
 
         printer_port = 9100
-        # printer = Network(printer_ip, printer_port)
+        printer = Network(printer_ip, printer_port)
 
         # Texto formateado basado en el HTML proporcionado
         receipt_text = f"""
