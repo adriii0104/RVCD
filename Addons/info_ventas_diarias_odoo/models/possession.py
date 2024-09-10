@@ -151,19 +151,17 @@ Total ITBIS: ${total_itbis:.2f}
         ticket_text += "COBROS POR USUARIO:\n"
         ticket_text += "----------------------------------------\n"
         for waiter, data in totals_by_waiter.items():
-            ticket_text += f"{bold_on}{waiter.name}{bold_off}\n\n"
+            ticket_text += f"{bold_on}{waiter.name}{bold_off}\n"
             for payment_method, amount in data['payment_methods'].items():
-                ticket_text += "{}    {:<10} {:<5} ${:<10.2f} ${:<10.2f}".format(bold_on,
+                ticket_text += "{}    {:<10} {:<5} ${:<10.2f}\n".format(bold_on,
                     payment_method[:10],
                     data['total_operations'],
                     amount,
-                    0.00  # No tip handling, hence $0.00
                 )
-            ticket_text += "{}    Total {:<5} ${:<10.2f} ${:<10.2f}{}\n".format(bold_on,
+            ticket_text += "{}    Total {:<10} ${:<10.2f} {}\n".format(bold_on,
                 data['total_operations'],
                 data['total_sales'],
-                0.00  # Total tips
-                , bold_off
+                bold_off
             )
 
         # New section: Summary by User
