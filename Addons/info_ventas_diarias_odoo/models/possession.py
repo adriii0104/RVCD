@@ -88,7 +88,9 @@ class PosConfig(models.Model):
         bold_off = chr(27) + chr(69) + chr(0)
 
         # Initialize the printer
-        # printer = Network('192.168.1.100')  # Replace with your printer's IP address
+        #printer = Network('192.168.1.100')  # Replace with your printer's IP address
+        #printer_ip = '192.168.100.110'
+        #printer_port = 9100
 
         # Format the ticket text
         ticket_text = f"""
@@ -137,9 +139,9 @@ Total ITBIS: ${total_itbis:.2f}
 
         # Payments by User (receipt format)
         ticket_text += "COBROS POR USUARIO:\n"
-        ticket_text += "----------------------------------------\n\n"
+        ticket_text += "----------------------------------------\n"
         for waiter, data in totals_by_waiter.items():
-            ticket_text += f"{bold_on}{waiter.name}{bold_off}"
+            ticket_text += f"{bold_on}{waiter.name}{bold_off}\n\n"
             for payment_method, amount in data['payment_methods'].items():
                 ticket_text += "{}    {:<10} {:<5} ${:<10.2f} ${:<10.2f}".format(bold_on,
                     payment_method[:10],
@@ -173,4 +175,9 @@ Total ITBIS: ${total_itbis:.2f}
 
         # Print the ticket
         print(ticket_text)
-        # printer.text(ticket_text)
+        printer_ip = '192.168.100.110'
+        printer_port = 9100
+        printer = Network(printer_ip, printer_port)
+        printer.text(ticket_text)
+        printer.cut()
+        printer.close()
