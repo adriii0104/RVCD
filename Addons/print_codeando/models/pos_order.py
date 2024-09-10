@@ -134,6 +134,6 @@ Revel Bar & Kitchen
 """
         print(receipt_text)
         # # Imprime el texto
-        # printer.text(receipt_text)
-        # printer.cut()
-        # printer.close()
+        printer.text(receipt_text)
+        printer.cut()
+        printer.close()
