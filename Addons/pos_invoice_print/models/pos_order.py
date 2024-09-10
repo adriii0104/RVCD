@@ -88,12 +88,12 @@ Importe sin impuestos:             RD$ {amount_untaxed:,.2f}
             """
 
             # Uncomment the following lines to print to a network printer
-            # printer_ip = '192.168.100.110'
-            # printer_port = 9100
-            # printer = Network(printer_ip, printer_port)
-            # printer.text(summary_str)
-            # printer.cut()
-            # printer.close()
+            printer_ip = '192.168.100.110'
+            printer_port = 9100
+            printer = Network(printer_ip, printer_port)
+            printer.text(summary_str)
+            printer.cut()
+            printer.close()
             print(summary_str)
 
             return summary_str
