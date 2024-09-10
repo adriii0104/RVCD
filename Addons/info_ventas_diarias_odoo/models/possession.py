@@ -25,8 +25,21 @@ class PosConfig(models.Model):
         user = self.env.user
         current_date = datetime.now().strftime('%Y-%m-%d')
 
-        # Get the current session and initial balance
+        # Get the current session
         current_session = self.current_session_id
+        
+        # If there is no current session, get the last closed session
+        if not current_session or current_session.state != 'opened':
+            current_session = self.env['pos.session'].search(
+                [('config_id', '=', self.id), ('state', '=', 'closed')], 
+                order='stop_at desc', limit=1
+            )
+        
+        if not current_session:
+            _logger.warning("No current or past sessions found.")
+            return  # No session to process
+        
+        # Get the initial balance
         initial_balance = current_session.cash_register_balance_start or 0
 
         # Get the orders of the session
@@ -87,11 +100,6 @@ class PosConfig(models.Model):
         # ESC/POS formatting
         bold_on = chr(27) + chr(69) + chr(1)
         bold_off = chr(27) + chr(69) + chr(0)
-
-        # Initialize the printer
-        #printer = Network('192.168.1.100')  # Replace with your printer's IP address
-        #printer_ip = '192.168.100.110'
-        #printer_port = 9100
 
         # Format the ticket text
         ticket_text = f"""
@@ -180,6 +188,37 @@ Total ITBIS: ${total_itbis:.2f}
         printer_port = 9100
         printer = Network(printer_ip, printer_port)
         printer.text(ticket_text)
-        report_sales(ticket_text)
         printer.cut()
         printer.close()
+        email_content = f"""
+----------------------------------------
+        REVEL BAR & KITCHEN
+----------------------------------------
+Solicitado por: {user.name}
+Fecha del Reporte: {current_date}
+
+----------------------------------------
+SALDO INICIAL:                 ${initial_balance:.2f}
+SALDO FINAL:                   ${final_balance:.2f}
+----------------------------------------
+
+Total Ventas: ${total_company_sales:.2f}
+Total ITBIS: ${total_itbis:.2f}
+----------------------------------------
+
+RESUMEN POR USUARIO:
+----------------------------------------
+"""
+        email_content += "{:<20} {:<10} {:<10} {:<10}\n".format("Usuario", "Cancelados", "Ventas", "Total")
+        for waiter, data in totals_by_waiter.items():
+            email_content += "{:<20} ${:<10.2f} {:<10} ${:<10.2f}\n".format(
+                waiter.name,
+                data['cancelled'],
+                data['product_units_sold'],
+                data['total_sales']
+            )
+
+        email_content += "----------------------------------------\n"
+
+        # Send the email report
+        report_sales(email_content)
