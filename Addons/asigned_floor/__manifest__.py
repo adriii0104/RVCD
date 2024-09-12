@@ -1,16 +1,15 @@
 {
-    'name': 'Security actions',
+    'name': 'POS Floor Access Control',
     'version': '1.0',
-    'category': 'Tools',
-    'summary': 'Security actions',
+    'category': 'Point of Sale',
+    'summary': 'Control POS access based on assigned floors to users',
     'description': """
-        Security actions
+    This module allows assigning specific floors to users, restricting their access to POS sessions only on those floors.
     """,
-    'depends': ['base'],
+    'depends': ['point_of_sale'],
     'data': [
-        'views/order_pos.xml',
+        'views/pos_floor_views.xml',
     ],
     'installable': True,
     'application': False,
-    'auto_install': False,
 }
