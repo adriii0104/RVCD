@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!-- Modificación de la vista kanban del POS Config -->
+        <record id="pos_config_kanban_view_inherit" model="ir.ui.view">
+            <field name="name">pos.config.kanban.view.inherit</field>
+            <field name="model">pos.config</field>
+            <field name="inherit_id" ref="point_of_sale.view_pos_config_kanban"/>
+            <field name="arch" type="xml">
+                <!-- Inserción del campo de fecha y el botón para imprimir los totales -->
+                <xpath expr="//div[@class='col-6 o_kanban_card_manage_section o_kanban_manage_new']" position="inside">
+                    <!-- Insertar contenedor para el campo de fecha y el botón -->
+                    <div class="oe_kanban_bottom_left o_kanban_bottom_cursor">
+                        <!-- Campo para seleccionar la fecha del reporte -->
+                        <field name="report_date" widget="date" class="o_kanban_field_date" string="Select Report Date"/>
+
+                        <!-- Botón para ejecutar la acción de imprimir el reporte -->
+                        <button name="action_print_totals_kanban" type="object" string="Print Totals by Date" class="btn btn-primary"/>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

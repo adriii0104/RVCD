@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="pos_password_modal">
+        <div class="modal" id="posPasswordModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Validar contraseña</h4>
+                    </div>
+                    <div class="modal-body">
+                        <input type="password" id="pos_password_input" placeholder="Introduce la contraseña"/>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" id="validate_password_button">Validar</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+</odoo>
